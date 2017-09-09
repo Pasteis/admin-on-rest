@@ -16,6 +16,7 @@ import { crudSaga } from './sideEffect/saga';
 import DefaultLayout from './mui/layout/Layout';
 import Menu from './mui/layout/Menu';
 import Login from './mui/auth/Login';
+import Register from './mui/auth/Register';
 import Logout from './mui/auth/Logout';
 import TranslationProvider from './i18n/TranslationProvider';
 
@@ -35,6 +36,7 @@ const Admin = ({
     theme,
     title = 'Admin on REST',
     loginPage,
+    registerPage,
     logoutButton,
     initialState,
 }) => {
@@ -74,6 +76,11 @@ const Admin = ({
                                 title,
                                 theme,
                             })} />
+                            <Route exact path="/register" render={({ location }) => createElement(registerPage || Register, {
+                                location,
+                                title,
+                                theme,
+                            })} />
                             <Route path="/" render={() => createElement(appLayout || DefaultLayout, {
                                 dashboard,
                                 customRoutes,
@@ -106,6 +113,7 @@ Admin.propTypes = {
     dashboard: componentPropType,
     history: PropTypes.object,
     loginPage: componentPropType,
+    registerPage: componentPropType,
     logoutButton: componentPropType,
     menu: componentPropType,
     restClient: PropTypes.func,

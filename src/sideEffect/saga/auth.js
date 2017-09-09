@@ -7,11 +7,15 @@ import {
     USER_LOGIN_LOADING,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAILURE,
+    USER_REGISTER,
+    USER_REGISTER_LOADING,
+    USER_REGISTER_SUCCESS,
+    USER_REGISTER_FAILURE,
     USER_CHECK,
     USER_LOGOUT,
 } from '../../actions/authActions';
 import { FETCH_ERROR } from '../../actions/fetchActions';
-import { AUTH_LOGIN, AUTH_CHECK, AUTH_ERROR, AUTH_LOGOUT } from '../../auth';
+import { AUTH_LOGIN, AUTH_REGISTER, AUTH_CHECK, AUTH_ERROR, AUTH_LOGOUT } from '../../auth';
 
 export default (authClient) => {
     if (!authClient) return () => null;
@@ -29,6 +33,21 @@ export default (authClient) => {
                 const errorMessage = typeof e === 'string'
                     ? e
                     : (typeof e === 'undefined' || !e.message ? 'aor.auth.sign_in_error' : e.message);
+                yield put(showNotification(errorMessage, 'warning'));
+            }
+            break;
+        }
+        case USER_REGISTER: {
+            try {
+                yield put({ type: USER_REGISTER_LOADING });
+                const authPayload = yield call(authClient, AUTH_REGISTER, payload);
+                yield put({ type: USER_REGISTER_SUCCESS, payload: authPayload });
+                yield put(push(meta.pathName || '/'));
+            } catch (e) {
+                yield put({ type: USER_REGISTER_FAILURE, error: e, meta: { auth: true } });
+                const errorMessage = typeof e === 'string'
+                    ? e
+                    : (typeof e === 'undefined' || !e.message ? 'aor.auth.registration_error' : e.message);
                 yield put(showNotification(errorMessage, 'warning'));
             }
             break;

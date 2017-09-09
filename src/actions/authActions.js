@@ -9,6 +9,17 @@ export const userLogin = (payload, pathName) => ({
     meta: { auth: true, pathName },
 });
 
+export const USER_REGISTER = 'AOR/USER_REGISTER';
+export const USER_REGISTER_LOADING = 'AOR/USER_REGISTER_LOADING';
+export const USER_REGISTER_FAILURE = 'AOR/USER_REGISTER_FAILURE';
+export const USER_REGISTER_SUCCESS = 'AOR/USER_REGISTER_SUCCESS';
+
+export const userRegister = (payload, pathName) => ({
+    type: USER_REGISTER,
+    payload,
+    meta: { auth: true, pathName },
+});
+
 export const USER_CHECK = 'AOR/USER_CHECK';
 
 export const userCheck = (payload, pathName) => ({
